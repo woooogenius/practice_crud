@@ -1,17 +1,9 @@
 <?php
 
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\PostsController;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
 
 Route::middleware([
     'auth:sanctum',
@@ -22,3 +14,18 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
 });
+
+//Route::get('/', [PostsController::class, 'home'])->name('posts.home');
+//Route::get('/create', [PostsController::class, 'create'])->name('posts.create');
+
+
+Route::prefix('/')
+    ->name('posts.')
+    ->group(function () {
+        Route::get('/', [PostsController::class, 'home'])->name('home');
+        Route::get('/create', [PostsController::class, 'create'])->name('create');
+        Route::post('/',[PostsController::class, 'store'])->name('store'); //post 생성 요청
+
+    });
+
+
