@@ -62,4 +62,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    protected  function posts()
+    {
+        return $this->hasMany(Post::class);
+        //유저는 포스트를 많이 가질수 있다
+    }
 }

@@ -18,6 +18,10 @@ return new class extends Migration
             $table->string('content');
             $table->string('board_id');
         });
+
+        Schema::table('posts', function (Blueprint $table){
+            $table->foreignId('user_id')->references('id')->on('users');
+        }); //user_id 칼럼을 외래키로 설정한다 users의 테이블의 id칼럼을 참조하여서
     }
 
     /**

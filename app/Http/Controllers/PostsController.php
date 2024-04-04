@@ -26,6 +26,8 @@ class PostsController extends Controller
            'title'=>'required',
            'content'=>'required',
            'board_id'=>'required',
+           'user_id' => 'required',
+
         ]);
 
         Post::create($request->all());

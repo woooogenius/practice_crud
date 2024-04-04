@@ -1,12 +1,16 @@
 <script setup>
 
 import Navigation from "@/Pages/Components/Navigation.vue";
-import {useForm} from "@inertiajs/vue3";
+import {useForm, usePage} from "@inertiajs/vue3";
+import {onMounted} from "vue";
+
+const page = usePage()
 const form = useForm({
     title : '',
     content : '',
     created_at : '',
     board_id : '자유게시판',
+    user_id : 0,
 })
 
 const submitForm = ()=>{
@@ -19,7 +23,14 @@ const submitForm = ()=>{
 
         }
     })
+
+
 }
+onMounted(() => {
+    form.user_id = page.props.auth.user.id
+})
+
+
 </script>
 
 <template>

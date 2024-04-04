@@ -1,12 +1,22 @@
 <script setup>
+import {inject} from "vue";
+import {router} from "@inertiajs/vue3";
 
+const route = inject('route')
+const logout = () => {
+    router.post(route('logout'));
+};
 </script>
 <template>
     <div>
         <ul class="flex justify-end gap-5 text-lg p-5 bg-black text-white">
             <li><a href="/">Home</a></li>
-            <li><a href="/login">login</a></li>
-            <li class="mr-5"><a href="/register">join</a></li>
+            <li v-if="!$page.props.auth.user"><a href="/login">login</a></li>
+            <li v-if="$page.props.auth.user">{{$page.props.auth.user.name}} 님</li>
+            <li v-if="!$page.props.auth.user" class="mr-5"><a href="/register">join</a></li>
+            <li v-if="$page.props.auth.user" class="mr-5 cursor-pointer">
+                <a @click="logout">logout</a>
+            </li>
         </ul>
     </div>
 </template>
