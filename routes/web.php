@@ -14,12 +14,29 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    Route::prefix('/')
+//    Route::prefix('/')
+//        ->name('posts.')
+//        ->group(function () {
+//            Route::get('/', [PostsController::class, 'home'])->name('home');
+//            Route::get('/create', [PostsController::class, 'create'])->name('create');
+//            Route::post('/',[PostsController::class, 'store'])->name('store');
+//            Route::delete('/{id}',[PostsController::class,'destroy'])->name('destroy');
+//            Route::get('/{id}',[PostsController::class,'edit'])->name('edit');
+//            Route::put('/{id}',[PostsController::class,'update'])->name('update');
+//        });
+
+    //refactoring controller별 그룹화
+
+    Route::controller(PostsController::class)
+        ->prefix('/')
         ->name('posts.')
-        ->group(function () {
-            Route::get('/', [PostsController::class, 'home'])->name('home');
-            Route::get('/create', [PostsController::class, 'create'])->name('create');
-            Route::post('/',[PostsController::class, 'store'])->name('store'); //post 생성 요청
+        ->group(function(){
+            Route::get('','home')->name('home');
+            Route::get('/create','create')->name('create');
+            Route::post('/','store')->name('store');
+            Route::delete('/{id}','destroy')->name('destroy');
+            Route::get('/{id}','edit')->name('edit');
+            Route::put('/{id}','update')->name('update');
         });
 });
 

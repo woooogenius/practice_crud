@@ -3,6 +3,7 @@
 import Navigation from "@/Pages/Components/Navigation.vue";
 import {useForm, usePage} from "@inertiajs/vue3";
 import {onMounted} from "vue";
+import Footer from "@/Pages/Components/Footer.vue";
 
 const page = usePage()
 const form = useForm({
@@ -61,4 +62,6 @@ onMounted(() => {
 
 
     </div>
+    <Footer/>
+
 </template>
