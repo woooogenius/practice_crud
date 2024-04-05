@@ -63,9 +63,13 @@ class User extends Authenticatable
         ];
     }
 
-    protected  function posts()
+    protected  function post()
     {
         return $this->hasMany(Post::class);
         //유저는 포스트를 많이 가질수 있다
     }
+
+    public function comment(){
+        return $this->hasMany(Comment::class);
+    }//유저는 댓글을 많이 가질수 있다
 }

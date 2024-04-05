@@ -20,4 +20,8 @@ class Post extends Model
         //포스트는 유저에 속한다
     }
 
+    public function comment(){
+        return $this->hasMany(Comment::class);
+    }
+
 }

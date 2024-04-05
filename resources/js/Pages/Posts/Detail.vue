@@ -1,14 +1,17 @@
 <script setup>
 import Footer from "@/Pages/Components/Footer.vue";
 import Navigation from "@/Pages/Components/Navigation.vue";
-import {router, useForm} from "@inertiajs/vue3";
-import {inject} from "vue";
+import {router, useForm, usePage} from "@inertiajs/vue3";
+import {inject, onMounted} from "vue";
 
 const route = inject('route')
 const props = defineProps({
     post : {
         type : Object,
         required : true,
+    },
+    comments : {
+        type : Array,
     }
 })
 
@@ -19,6 +22,12 @@ const formData = useForm({
     created : props.post.created_at,
 
 })
+
+const commentData= useForm({
+    comment : '',
+    post_id : props.post.id,
+})
+
 const dateFormat = (postTime)=>{
     const date = new Date(postTime);
     const year = date.getFullYear();
@@ -41,20 +50,38 @@ const editPost = (postId)=>{
 
 
 }
+const submitComment = ()=>{
+    commentData.post(route('comment.store'),{
+        onSuccess : ()=>{
+            commentData.comment = '';
+            commentData.post_id = '';
+        },
+        onFinish : ()=>{
+
+        }
+    })
+
+
+}
+
+const page = usePage();
+onMounted(() => {
+    commentData.post_id = page.props.post.id
+})
 
 </script>
 
 <template>
     <Navigation/>
 
-    <div class="w-full">
+    <div class="w-full pb-80">
         <h1 class="mt-5 text-center text-2xl">게시글 상세</h1>
 
-        <div class="w-full flex justify-center mt-3">
+        <div class="w-full flex flex-wrap justify-center mt-3">
             <div class="w-1/2">
-                <input v-model="formData.title" class="border-gray-300 w-4/12 rounded-tl-xl border-r-white" type="text" readonly>
-                <input :value="dateFormat(formData.created)" type="text" class="text-center w-4/12 border-gray-300 border-r-white" readonly>
-                <input v-model="formData.board" class="text-center border-gray-300 w-4/12 rounded-tr-xl" type="text" readonly>
+                <input v-model="formData.title" class="border-gray-300 w-full rounded-t-xl border-b-white text-center" type="text" readonly>
+                <input :value="dateFormat(formData.created)" type="text" class="text-center w-1/2 border-gray-300 border-r-white" readonly>
+                <input v-model="formData.board" class="text-center border-gray-300 w-1/2 " type="text" readonly>
             </div>
 
         </div>
@@ -71,6 +98,26 @@ const editPost = (postId)=>{
 
 
 
+        <h1 class="text-center text-xl mt-8">Comment</h1>
+
+        <div class="w-full">
+            <div class="flex justify-center mt-3">
+                <textarea class="resize-none w-1/2 h-10 border border-gray-300 rounded-xl" v-model="commentData.comment"></textarea>
+
+            </div>
+            <div class="w-1/2 flex justify-end m-auto">
+                <button @click='submitComment' v-bind="post.id" class="border border-gray-300 px-5 py-3 rounded-xl mt-3 hover:text-white hover:bg-black transition delay-75">댓글저장</button>
+            </div>
+
+
+
+
+
+        </div>
+
+
+
     </div>
+
     <Footer/>
 </template>
