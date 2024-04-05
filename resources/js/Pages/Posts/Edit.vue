@@ -24,8 +24,9 @@ const onHandleSave = ()=>{
 }
 
 const handleSubmit = async () => {
-    await formData.put(`${props.post.id}`);
+    await formData.put(`/edit/${props.post.id}`);
 };
+
 
 
 
@@ -53,7 +54,7 @@ const handleSubmit = async () => {
         </div>
 
         <div class="w-1/2 flex justify-end m-auto">
-            <button @click="handleSubmit" class="border border-gray-300 px-5 py-3 rounded-xl mt-3 hover:text-white hover:bg-black transition delay-100">수정하기</button>
+            <button @click="()=>handleSubmit()" class="border border-gray-300 px-5 py-3 rounded-xl mt-3 hover:text-white hover:bg-black transition delay-100">수정하기</button>
         </div>
 
 

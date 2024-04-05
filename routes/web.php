@@ -35,8 +35,9 @@ Route::middleware([
             Route::get('/create','create')->name('create');
             Route::post('/','store')->name('store');
             Route::delete('/{id}','destroy')->name('destroy');
-            Route::get('/{id}','edit')->name('edit');
-            Route::put('/{id}','update')->name('update');
+            Route::get('edit/{id}','edit')->name('edit');
+            Route::put('edit/{id}','update')->name('update');
+            Route::get('/{id}','detail')->name('detail');
         });
 });
 

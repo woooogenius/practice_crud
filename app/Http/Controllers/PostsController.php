@@ -17,6 +17,8 @@ class PostsController extends Controller
         return Inertia::render('Posts/Home',['posts'=>$posts]);
     }
 
+
+
     public function create(){
         return Inertia::render('Posts/Create');
     }
@@ -54,5 +56,10 @@ class PostsController extends Controller
 
         return redirect()->route('posts.home');
 
+    }
+
+    public function detail($id){
+        $post = Post::find($id);
+        return Inertia::render('Posts/Detail',['post'=>$post]);
     }
 }
