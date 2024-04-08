@@ -46,7 +46,9 @@ Route::middleware([
         ->name('comment.')
         ->group(function(){
             Route::post('','store')->name('store');
-            Route::get('','get')->name('get');
+            Route::get('','index')->name('index');
+            Route::delete('/{id}','destroy')->name('destroy');
+            Route::put('/{id}','update')->name('update');
         });
 
 

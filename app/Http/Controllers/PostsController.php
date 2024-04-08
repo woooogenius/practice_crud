@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Comment;
 use App\Models\Post;
 //use GuzzleHttp\Psr7\Request; 이거쓰면 아래 에러 뜸
 //Unresolvable dependency resolving [Parameter #0 [ <required> string $method ]] in class GuzzleHttp\Psr7\Request
@@ -59,7 +60,8 @@ class PostsController extends Controller
     }
 
     public function detail($id){
-        $post = Post::find($id);
+//        $post = Post::with('comments')->find($id); 작성한 유저 이름을 가져오고 싶은데 이렇게 하면 가져오지 못함..
+        $post = Post::with('comments.user')->find($id);
         return Inertia::render('Posts/Detail',['post'=>$post]);
     }
 }

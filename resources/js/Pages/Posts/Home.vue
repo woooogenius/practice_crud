@@ -66,13 +66,13 @@ const setSelectedBoard = (value) => {
                 </select>
             </div>
 
-            <ul class="border border-gray-300 flex text-center mt-3">
-                <li class="w-1/12 border-r border-gray-300 p-1">no</li>
-                <li class="w-2/12 border-r border-gray-300 p-1">username</li>
-                <li class="w-4/12 border-r border-gray-300 p-1">title</li>
-                <li class="w-2/12 border-r border-gray-300 p-1">board</li>
-                <li class="w-2/12 border-r border-gray-300 p-1">created at</li>
-                <li class="w-1/12 border-r border-gray-300 p-1">edit</li>
+            <ul class="w-full border border-gray-300 flex text-center mt-3">
+                <li class="w-1/12 p-1">no</li>
+                <li class="w-2/12 p-1">username</li>
+                <li class="w-4/12 p-1">title</li>
+                <li class="w-2/12 p-1">board</li>
+                <li class="w-2/12 p-1">created at</li>
+                <li class="w-1/12 p-1">edit</li>
                 <li class="w-1/12 p-1">delete</li>
             </ul>
 

@@ -16,12 +16,12 @@ class Post extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
         //포스트는 유저에 속한다
     }
 
-    public function comment(){
-        return $this->hasMany(Comment::class);
+    public function comments(){
+        return $this->hasMany(Comment::class, 'post_id');
     }
 
 }

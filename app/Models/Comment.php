@@ -16,7 +16,7 @@ class Comment extends Model
     ];
 
     public function post(){
-        return $this->belongsTo(Post::class);
+        return $this->belongsTo(Post::class, 'post_id');
     } //댓글은 게시글에 포함됨
 
     public function user()

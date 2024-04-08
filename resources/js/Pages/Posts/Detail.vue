@@ -2,7 +2,7 @@
 import Footer from "@/Pages/Components/Footer.vue";
 import Navigation from "@/Pages/Components/Navigation.vue";
 import {router, useForm, usePage} from "@inertiajs/vue3";
-import {inject, onMounted} from "vue";
+import {inject, onMounted, ref} from "vue";
 
 const route = inject('route')
 const props = defineProps({
@@ -12,7 +12,8 @@ const props = defineProps({
     },
     comments : {
         type : Array,
-    }
+    },
+
 })
 
 const formData = useForm({
@@ -27,6 +28,7 @@ const commentData= useForm({
     comment : '',
     post_id : props.post.id,
 })
+
 
 const dateFormat = (postTime)=>{
     const date = new Date(postTime);
@@ -69,6 +71,62 @@ onMounted(() => {
     commentData.post_id = page.props.post.id
 })
 
+
+const dateFormatNoneYear = (postTime)=>{
+    const date = new Date(postTime);
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${month}/${day} ${hours}:${minutes}`;
+}
+
+const deleteComment = (commentId)=>{
+    if(confirm('삭제하시겠습니까?')){
+        router.delete(route('comment.destroy',commentId));
+    }
+}
+
+
+// const onSubmitEdit = (commentId)=>{
+//     const updatedComment = commentData.comment;
+//     commentData.put(`/comment/${commentId}`,{
+//         comment : updatedComment,
+//     });
+      // router.put(route('comment.update',commentId));
+    // await commentData.put(`/${props.comment/commentId}`);
+
+// }
+
+let editInputValue = '';
+let isEdit = ref(false);
+
+const onSubmitEdit = async (commentId) => {
+    try {
+        await router.put(route('comment.update', commentId),{
+            'comment': editInputValue,
+
+        });
+        editInputValue = '';
+        isEdit.value = false;
+
+    } catch (error) {
+        console.error(error);
+    }
+
+}
+
+const onClickEdit = (commentIdx)=>{
+    if(commentIdx){
+        isEdit.value = !isEdit.value;
+    }else{
+        isEdit.value = false;
+    }
+    // console.log(props.post.comments[commentIdx].id)
+}
+
+
+
 </script>
 
 <template>
@@ -109,12 +167,38 @@ onMounted(() => {
                 <button @click='submitComment' v-bind="post.id" class="border border-gray-300 px-5 py-3 rounded-xl mt-3 hover:text-white hover:bg-black transition delay-75">댓글저장</button>
             </div>
 
+            <div>
+                <ul class="w-1/2 flex m-auto mt-10 p-2 text-center border-t border-b border-dashed border-gray-300">
+                    <li class="w-1/12">no</li>
+                    <li class="w-2/12">username</li>
+                    <li class="w-4/12">content</li>
+                    <li class="w-3/12">created</li>
+                    <li class="w-1/12">edit</li>
+                    <li class="w-1/12">del</li>
+                </ul>
+                <ul v-for="(comment, idx) in post.comments" class="w-1/2 flex m-auto border border-gray-300 mt-3 p-2 rounded-xl">
+                    <li class="w-1/12 text-center">{{idx + 1}}</li>
+                    <li class="w-2/12 text-center">{{comment.user.name}} : </li>
+                    <li class="w-4/12">
+                        <div v-if="isEdit" class="flex w-full">
+                            <form @submit.prevent="onSubmitEdit(comment.id)">
+<!--                                <textarea class="resize-none w-1/2 h-10 border border-gray-300 rounded-xl" v-model="comment.comment" required></textarea>-->
+                                <input  type="text" id="editInput" v-model="editInputValue" class="w-8/12 border-gray-300 mr-2">
+                                <button class="w-3/12 border border-gray-300 rounded-xl" type="submit">저장</button>
+                            </form>
+                        </div>
+                        <div v-if="!isEdit">{{comment.comment}}</div>
+                    </li>
+                    <li class="w-3/12 text-sm text-center">{{dateFormatNoneYear(comment.created_at)}}</li>
+                    <li class="w-1/12 text-center"><button @click="()=>onClickEdit(idx + 1)" class="border border-gray-300 px-1.5 rounded-xl hover:bg-black hover:text-white transition">edit</button></li>
+                    <li class="w-1/12 text-center"><button @click="()=>deleteComment(comment.id)" class="border border-gray-300 px-1.5 rounded-xl hover:bg-black hover:text-white transition">del</button></li>
+                </ul>
+            </div>
 
 
-
+            <div>{{post}}</div>
 
         </div>
-
 
 
     </div>
