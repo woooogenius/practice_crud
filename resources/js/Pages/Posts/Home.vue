@@ -2,7 +2,7 @@
 
 import Navigation from "@/Pages/Components/Navigation.vue";
 import {inject, ref} from "vue";
-import {router} from "@inertiajs/vue3";
+import {router, usePage} from "@inertiajs/vue3";
 import Footer from "@/Pages/Components/Footer.vue";
 
 const route = inject('route')
@@ -77,7 +77,7 @@ const setSelectedBoard = (value) => {
             </ul>
 
 <!--            <div>{{posts}}</div>-->
-            <div v-for="(post, index) in posts" >
+            <div v-for="(post, index) in posts" :key="post.id">
                 <div v-if="selectedBoard === '' ? true : selectedBoard === post.board_id">
                     <ul class="border border-gray-300 flex text-center border-t-0 ">
                         <li class="w-1/12 border-r border-gray-300 p-3">{{ index + 1 }}</li>

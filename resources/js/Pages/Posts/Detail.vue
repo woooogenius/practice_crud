@@ -97,34 +97,37 @@ const deleteComment = (commentId)=>{
     // await commentData.put(`/${props.comment/commentId}`);
 
 // }
+//
+// let editInputValue = '';
+// let isEdit = ref(false);
+//
+// const onSubmitEdit = async (commentId) => {
+//     try {
+//         await router.put(route('comment.update', commentId),{
+//             'comment': editInputValue,
+//
+//         });
+//         editInputValue = '';
+//         isEdit.value = false;
+//
+//     } catch (error) {
+//         console.error(error);
+//     }
+//
+// }
 
-let editInputValue = '';
-let isEdit = ref(false);
+// const onClickEdit = (commentId)=>{
+//     const commentIndex = props.post.comments.findIndex(comment => comment.id === commentId);
+//     if(commentIndex !== -1){
+//         isEdit.value = !isEdit.value;
+//     }else{
+//         isEdit.value = false;
+//     }
+// }
 
-const onSubmitEdit = async (commentId) => {
-    try {
-        await router.put(route('comment.update', commentId),{
-            'comment': editInputValue,
-
-        });
-        editInputValue = '';
-        isEdit.value = false;
-
-    } catch (error) {
-        console.error(error);
-    }
-
+const onEditComment = (postId)=>{
+    router.get(route('comment.edit',postId));
 }
-
-const onClickEdit = (commentIdx)=>{
-    if(commentIdx){
-        isEdit.value = !isEdit.value;
-    }else{
-        isEdit.value = false;
-    }
-    // console.log(props.post.comments[commentIdx].id)
-}
-
 
 
 </script>
@@ -180,23 +183,29 @@ const onClickEdit = (commentIdx)=>{
                     <li class="w-1/12 text-center">{{idx + 1}}</li>
                     <li class="w-2/12 text-center">{{comment.user.name}} : </li>
                     <li class="w-4/12">
-                        <div v-if="isEdit" class="flex w-full">
-                            <form @submit.prevent="onSubmitEdit(comment.id)">
-<!--                                <textarea class="resize-none w-1/2 h-10 border border-gray-300 rounded-xl" v-model="comment.comment" required></textarea>-->
-                                <input  type="text" id="editInput" v-model="editInputValue" class="w-8/12 border-gray-300 mr-2">
-                                <button class="w-3/12 border border-gray-300 rounded-xl" type="submit">저장</button>
-                            </form>
-                        </div>
-                        <div v-if="!isEdit">{{comment.comment}}</div>
+<!--                        <div class="flex w-full">-->
+<!--                            <form @submit.prevent="onSubmitEdit(comment.id)">-->
+<!--&lt;!&ndash;                                <textarea class="resize-none w-1/2 h-10 border border-gray-300 rounded-xl" v-model="comment.comment" required></textarea>&ndash;&gt;-->
+<!--                                <input  type="text" id="editInput" v-model="editInputValue" class="w-8/12 border-gray-300 mr-2">-->
+<!--                                <button class="w-3/12 border border-gray-300 rounded-xl" type="submit">저장</button>-->
+<!--                            </form>-->
+<!--                        </div>-->
+
+
+
+
+
+                        <div>{{comment.comment}}</div>
                     </li>
                     <li class="w-3/12 text-sm text-center">{{dateFormatNoneYear(comment.created_at)}}</li>
-                    <li class="w-1/12 text-center"><button @click="()=>onClickEdit(idx + 1)" class="border border-gray-300 px-1.5 rounded-xl hover:bg-black hover:text-white transition">edit</button></li>
+<!--                    <li class="w-1/12 text-center"><button @click="()=>onClickEdit(comment.id)" class="border border-gray-300 px-1.5 rounded-xl hover:bg-black hover:text-white transition">edit</button></li>-->
+                    <li class="w-1/12 text-center"><button @click="()=>onEditComment(comment.id)" class="border border-gray-300 px-1.5 rounded-xl hover:bg-black hover:text-white transition">edit</button></li>
                     <li class="w-1/12 text-center"><button @click="()=>deleteComment(comment.id)" class="border border-gray-300 px-1.5 rounded-xl hover:bg-black hover:text-white transition">del</button></li>
                 </ul>
             </div>
 
 
-            <div>{{post}}</div>
+<!--            <div>{{post}}</div>-->
 
         </div>
 

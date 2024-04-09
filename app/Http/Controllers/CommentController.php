@@ -43,4 +43,11 @@ class CommentController extends Controller
        $postId = $comment->post_id; //수정된 댓글이 속한 게시글 아이디 가져옴
        return redirect()->route('posts.detail',['id'=>$postId]);
     }
+
+    public function edit($id){
+
+        $comment = Comment::find($id); //id값으로 찾음
+
+        return Inertia::render('Posts/CommentEdit',['comment'=>$comment]);
+    }
 }
