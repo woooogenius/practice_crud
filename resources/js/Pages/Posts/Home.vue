@@ -1,17 +1,18 @@
 <script setup>
 
 import Navigation from "@/Pages/Components/Navigation.vue";
-import {inject, ref} from "vue";
+import {inject, onMounted, ref} from "vue";
 import {router, usePage} from "@inertiajs/vue3";
 import Footer from "@/Pages/Components/Footer.vue";
+
 
 const route = inject('route')
 
 defineProps({
-    posts:{
-        type:Array,
+    data:{
+        type:Object,
         default: ()=>{},
-    }
+    },
 })
 
 const dateFormat = (postTime)=>{
@@ -46,16 +47,23 @@ const detailPost = (postId)=>{
 
 
 const selectedBoard = ref('');
-const setSelectedBoard = (value) => {
-    selectedBoard.value = value;
+
+// const setSelectedBoard = (value) => {
+//     selectedBoard.value = value;
+// }
+
+
+const linkPage = (url)=>{
+    router.get(url);
 }
+
 </script>
 
 <template>
     <div>
         <Navigation/>
 
-        <div class="w-full pl-10 pr-10">
+        <div class="w-full pl-10 pr-10 pb-40">
 
             <h1 class="mt-5 text-center text-2xl">Board Home</h1>
             <div class="flex flex-row justify-end">
@@ -75,9 +83,8 @@ const setSelectedBoard = (value) => {
                 <li class="w-1/12 p-1">edit</li>
                 <li class="w-1/12 p-1">delete</li>
             </ul>
-
-<!--            <div>{{posts}}</div>-->
-            <div v-for="(post, index) in posts" :key="post.id">
+<!--            <div>{{data}}</div>-->
+            <div v-for="(post, index) in data.data">
                 <div v-if="selectedBoard === '' ? true : selectedBoard === post.board_id">
                     <ul class="border border-gray-300 flex text-center border-t-0 ">
                         <li class="w-1/12 border-r border-gray-300 p-3">{{ index + 1 }}</li>
@@ -108,15 +115,34 @@ const setSelectedBoard = (value) => {
                     </ul>
                 </div>
 
+
+
+
             </div>
 
 
+            <!--페이지네이션-->
+            <ul class="flex justify-center mt-5">
+                <li v-if="data.prev_page_url !== null" class="mr-3 border border-gray-300 px-2 rounded-xl hover:bg-black hover:text-white transition delay-75">
+                    <button  @click="linkPage(data.prev_page_url)"><<</button>
+                </li>
+
+                <li v-for="(page, idx) in data.last_page" :key="page.url" class="mr-2 border border-gray-300 w-6 h-6 text-center hover:bg-black hover:text-white text-sm rounded-xl transition">
+                    <button class="w-full h-full" @click="linkPage(`${data.path + `?page=${idx+1}`}`)">{{ page }}</button>
+                </li>
+
+                <li v-if="data.next_page_url !== null">
+                    <button  @click="linkPage(data.next_page_url)" class="border border-gray-300 px-3 rounded-xl hover:bg-black hover:text-white transition delay-75">>></button>
+                </li>
+
+            </ul>
 
             <div class="flex flex-row justify-end mt-5">
                 <button class="px-5 py-2 rounded-3xl border border-gray-300 hover:bg-black hover:text-white transition delay-100">
                     <a href="/create">게시글 등록</a>
                 </button>
             </div>
+
 
 
 

@@ -1,6 +1,8 @@
 <script setup>
 
 import {router, useForm} from "@inertiajs/vue3";
+import Navigation from "@/Pages/Components/Navigation.vue";
+import Footer from "@/Pages/Components/Footer.vue";
 
 const props = defineProps({
     comment : {type : Object, required : true}
@@ -26,6 +28,7 @@ const goBackBtn = ()=>{
 </script>
 
 <template>
+    <Navigation/>
 
     <div class="fixed z-10 inset-0 overflow-y-auto flex justify-center items-center">
 
@@ -40,5 +43,7 @@ const goBackBtn = ()=>{
             </form>
         </div>
     </div>
+
+    <Footer/>
 
 </template>

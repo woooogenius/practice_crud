@@ -7,6 +7,7 @@ use App\Models\Comment;
 use App\Models\Post;
 //use GuzzleHttp\Psr7\Request; 이거쓰면 아래 에러 뜸
 //Unresolvable dependency resolving [Parameter #0 [ <required> string $method ]] in class GuzzleHttp\Psr7\Request
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 
@@ -14,9 +15,11 @@ class PostsController extends Controller
 {
     public function home()
     {
-        $posts = Post::with('user')->get();
-        return Inertia::render('Posts/Home',['posts'=>$posts]);
+//        $posts = Post::with('user')->get();
+        $data = Post::with('user')->orderBy('id','desc')->paginate(10);
+        return Inertia::render('Posts/Home',['data'=>$data]);
     }
+
 
 
 
