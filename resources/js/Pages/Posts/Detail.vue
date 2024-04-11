@@ -21,6 +21,8 @@ const formData = useForm({
     content : props.post.content,
     board : props.post.board_id,
     created : props.post.created_at,
+    image_path : props.post.image_path,
+    image_name : props.post.image_name,
 
 })
 
@@ -128,7 +130,7 @@ const deleteComment = (commentId)=>{
 const onEditComment = (postId)=>{
     router.get(route('comment.edit',postId));
 }
-
+// const imgPath = ref(`${props.post.image_path}`);
 
 </script>
 
@@ -147,6 +149,7 @@ const onEditComment = (postId)=>{
 
         </div>
         <div class="w-full">
+<!--            <img :src="imgPath" :alt="formData.image_name">-->
             <textarea v-model="formData.content" readonly class="border-gray-300 w-1/2 m-auto block resize-none h-80 border-t-white rounded-b-xl"></textarea>
 
         </div>
@@ -205,7 +208,7 @@ const onEditComment = (postId)=>{
             </div>
 
 
-<!--            <div>{{post}}</div>-->
+            <div>{{post}}</div>
 
         </div>
 

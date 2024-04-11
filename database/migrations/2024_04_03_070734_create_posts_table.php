@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('title');
             $table->string('content');
             $table->string('board_id');
+            $table->string('image_name') -> nullable();
+            $table->string('image_path') -> nullable();
         });
 
         Schema::table('posts', function (Blueprint $table){

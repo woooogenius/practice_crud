@@ -8,6 +8,7 @@ use App\Models\Post;
 //use GuzzleHttp\Psr7\Request; 이거쓰면 아래 에러 뜸
 //Unresolvable dependency resolving [Parameter #0 [ <required> string $method ]] in class GuzzleHttp\Psr7\Request
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 
@@ -40,11 +41,28 @@ class PostsController extends Controller
            'content'=>'required',
            'board_id'=>'required',
            'user_id' => 'required',
-
         ]);
 
-        Post::create($request->all());
-        return redirect()->route('posts.home');
+        $post = new Post();
+        $post->title = $request->title;
+        $post->content = $request->input('content');
+        $post->board_id = $request->board_id;
+        $post->user_id = $request->user_id;
+
+
+        if($request -> hasFile('image')){
+            $fileName =time().'_'.$request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('public/images', $fileName);
+            $post->image_name = $fileName;
+            $post->image_path = $path;
+        }
+
+        $post->save();
+
+
+        //        Post::create($request->all());
+
+        return redirect()->route('posts.home',['id' => $post->id]);
 
     }
 
