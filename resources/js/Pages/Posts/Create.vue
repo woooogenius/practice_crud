@@ -47,7 +47,14 @@ onMounted(() => {
                     <option value="자유게시판" selected>자유게시판</option>
                     <option value="그냥게시판">그냥게시판</option>
                 </select>
+
+                <!--이미지업로드-->
+                <div class="border border-gray-300 p-2 border-t-0">
+                    <input type="file" name="image" id="image" class="text-sm"/>
+                </div>
             </div>
+
+
 
         </div>
         <div class="w-full">
