@@ -149,7 +149,7 @@ const onEditComment = (postId)=>{
         </div>
         <div class="w-full">
             <div class="relative w-1/2 mx-auto">
-                <img :src="route('storage.images.show', {filename: formData.image_name})" :alt="formData.image_name" class="absolute inset-0 mx-auto mr-3 mt-3 border border-gray-300 h-40 w-40">
+                <img v-if="formData.image_name" :src="route('storage.images.show', {filename: formData.image_name})" :alt="formData.image_name" class="absolute z-0 inset-0 mx-auto mr-3 mt-3 border border-gray-300 h-auto w-40">
                 <textarea v-model="formData.content" readonly class="border-gray-300 w-full m-auto block resize-none h-80 border-t-white rounded-b-xl"></textarea>
             </div>
 
@@ -211,7 +211,6 @@ const onEditComment = (postId)=>{
 
 
 <!--            <div>{{post}}</div>-->
-            <div>{{formData.image_path}}</div>
 
         </div>
 

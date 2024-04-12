@@ -15,6 +15,8 @@ const formData = useForm({
     title :props.post.title,
     content : props.post.content,
     board : props.post.board_id,
+    image_name : props.post.image_name,
+    image_path : props.post.image_path,
 
 })
 
@@ -24,6 +26,14 @@ const onHandleSave = ()=>{
 }
 
 const handleSubmit = async () => {
+
+    // const formData = new FormData();
+    // formData.append('title', formData.title);
+    // formData.append('content',formData.content);
+    // formData.append('board_id',formData.board);
+    // formData.append('image', formData.image);
+
+
     await formData.put(`/edit/${props.post.id}`);
 };
 
@@ -43,19 +53,35 @@ const handleSubmit = async () => {
         <div class="w-full flex justify-center mt-3">
             <div class="w-1/2">
                 <input v-model="formData.title" class="border-gray-300 w-8/12 rounded-tl-xl border-r-white" type="text" placeholder="제목을 입력하세요.">
-                <input v-model="formData.board" class="border-gray-300 w-4/12 rounded-tr-xl" type="text" readonly>
+                <input v-model="formData.board" class="border-gray-300 w-4/12 rounded-tr-xl text-center" type="text" readonly>
 
             </div>
 
         </div>
         <div class="w-full">
-            <textarea v-model="formData.content"  placeholder="내용을 입력하세요." class="border-gray-300 w-1/2 m-auto block resize-none h-80 border-t-white rounded-b-xl"></textarea>
+            <div class="relative w-1/2 mx-auto">
+<!--                <img v-if="formData.image_name" :src="route('storage.images.show', {filename: formData.image_name})" :alt="formData.image_name" class="absolute z-0 inset-0 mx-auto mr-3 mt-3 border border-gray-300 h-40 w-40">-->
+<!--                <input v-else type="file" id="image">-->
+                <template v-if="formData.image_name">
+                    <img :src="route('storage.images.show', {filename: formData.image_name ? formData.image_name : null})" :alt="formData.image_name" class="absolute z-0 inset-0 mx-auto mr-3 mt-3 border border-gray-300 h-auto w-40">
+                </template>
+                <template v-if="!formData.image_name">
+                    <label for="image" class="cursor-pointer absolute z-0 inset-0 mx-auto mr-3 mt-3 border border-gray-300 h-36 w-36 text-center flex justify-center items-center">
+                        <span class="font-bold text-sm">사진추가</span>
+                    </label>
+                    <input type="file" id="image" hidden>
+                </template>
+
+                <textarea v-model="formData.content"  placeholder="내용을 입력하세요." class="border-gray-300 w-full m-auto block resize-none h-80 border-t-white rounded-b-xl"></textarea>
+            </div>
+<!--            <textarea v-model="formData.content"  placeholder="내용을 입력하세요." class="border-gray-300 w-1/2 m-auto block resize-none h-80 border-t-white rounded-b-xl"></textarea>-->
 
         </div>
 
         <div class="w-1/2 flex justify-end m-auto">
             <button @click="()=>handleSubmit()" class="border border-gray-300 px-5 py-3 rounded-xl mt-3 hover:text-white hover:bg-black transition delay-100">수정하기</button>
         </div>
+
 
 
 

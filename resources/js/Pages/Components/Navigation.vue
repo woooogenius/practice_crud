@@ -9,7 +9,7 @@ const logout = () => {
 
 </script>
 <template>
-    <div class="sticky top-0">
+    <div class="sticky top-0 z-50">
         <ul class="flex justify-end gap-5 text-lg p-5 bg-black text-white">
             <li><a href="/" class="hover:text-blue-500 transition">Home</a></li>
             <li v-if="!$page.props.auth.user" ><a href="/login" class="hover:text-blue-500 transition">login</a></li>

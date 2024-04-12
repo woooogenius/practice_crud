@@ -54,9 +54,16 @@ Route::middleware([
         });
 
 
-    Route::get('/storage/images/{filename}',function($filename){
-       $path = Storage::disk('public')->path('images/'.$filename);
-       return response()->file($path);
+    Route::get('/storage/images/{filename?}',function($filename){
+
+       if(!$filename){
+           return '';
+       }
+        $path = Storage::disk('public')->path('images/'.$filename);
+        if (Storage::disk('public')->exists('images/' . $filename)) {
+            return response()->file($path);
+        }
+//       return response()->file($path);
 
     })->name('storage.images.show');
 
