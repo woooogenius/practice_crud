@@ -139,7 +139,7 @@ const linkPage = (url)=>{
 
             <div class="flex flex-row justify-end mt-5">
                 <button class="px-5 py-2 rounded-3xl border border-gray-300 hover:bg-black hover:text-white transition delay-100">
-                    <a href="/create">게시글 등록</a>
+                    <a href="/post/create">게시글 등록</a>
                 </button>
             </div>
 

@@ -32,13 +32,13 @@ Route::middleware([
         ->prefix('/')
         ->name('posts.')
         ->group(function () {
-            Route::get('', 'home')->name('home');
-            Route::get('/create', 'create')->name('create');
-            Route::post('/', 'store')->name('store');
-            Route::delete('/{id}', 'destroy')->name('destroy');
+            Route::get('post', 'home')->name('home');
+            Route::get('create', 'create')->name('create');
+            Route::post('', 'store')->name('store');
+            Route::delete('{id}', 'destroy')->name('destroy');
             Route::get('edit/{id}', 'edit')->name('edit');
-            Route::put('edit/{id}', 'update')->name('update');
-            Route::get('/{id}', 'detail')->name('detail');
+            Route::post('edit/{id}', 'update')->name('update');
+            Route::get('{id}', 'detail')->name('detail');
         });
 
 
@@ -48,9 +48,9 @@ Route::middleware([
         ->group(function(){
             Route::post('','store')->name('store');
             Route::get('','index')->name('index');
-            Route::get('/{id}','edit')->name('edit');
-            Route::delete('/{id}','destroy')->name('destroy');
-            Route::put('/{id}','update')->name('update');
+            Route::get('{id}','edit')->name('edit');
+            Route::delete('{id}','destroy')->name('destroy');
+            Route::put('{id}','update')->name('update');
         });
 
 

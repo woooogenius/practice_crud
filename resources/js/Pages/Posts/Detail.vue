@@ -159,7 +159,7 @@ const onEditComment = (postId)=>{
         <div class="w-1/2 flex justify-end m-auto">
             <button @click="()=>deletePost(post.id)" class="border border-gray-300 px-5 py-3 rounded-xl mt-3 hover:text-white hover:bg-black transition delay-75">삭제하기</button>
 <!--            <button @click="()=>editPost(post.id)" class="border border-gray-300 px-5 py-3 rounded-xl mt-3 hover:text-white hover:bg-black transition delay-75 ml-3">수정하기</button>-->
-            <a :href="'/edit/' + post.id " class="border border-gray-300 px-5 py-3 rounded-xl mt-3 hover:text-white hover:bg-black transition delay-75 ml-3">수정하기</a>
+            <a :href="'edit/' + post.id " class="border border-gray-300 px-5 py-3 rounded-xl mt-3 hover:text-white hover:bg-black transition delay-75 ml-3">수정하기</a>
         </div>
 
 

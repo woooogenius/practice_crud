@@ -74,7 +74,20 @@ class PostsController extends Controller
 
     public function update(Request $request, $id){
         $post = Post::find($id); //id에 해당하는 게시물 검색
-        $post -> update($request->all()); // 요청으로 받은 데이터를 배열형태로 반환해서 한번에 update 매서드로 업데이트시킴
+//        dd($request->all());
+        //put매서드를 사용하면 이미지 수정이 안됨
+        //post로 하니까 잘들어옴,,
+
+
+        if($request->hasFile('image')){
+            $fileName =time().'_'.$request->file('image')->getClientOriginalName();
+            $path = $request->file('image')->storeAs('public/images', $fileName);
+            $post->image_name = $fileName;
+            $post->image_path = $path;
+        }
+        $post -> save();
+
+
 
         return redirect()->route('posts.home');
 
