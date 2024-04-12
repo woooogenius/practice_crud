@@ -130,7 +130,6 @@ const deleteComment = (commentId)=>{
 const onEditComment = (postId)=>{
     router.get(route('comment.edit',postId));
 }
-// const imgPath = ref(`${props.post.image_path}`);
 
 </script>
 
@@ -149,8 +148,11 @@ const onEditComment = (postId)=>{
 
         </div>
         <div class="w-full">
-<!--            <img :src="imgPath" :alt="formData.image_name">-->
-            <textarea v-model="formData.content" readonly class="border-gray-300 w-1/2 m-auto block resize-none h-80 border-t-white rounded-b-xl"></textarea>
+            <div class="relative w-1/2 mx-auto">
+                <img :src="route('storage.images.show', {filename: formData.image_name})" :alt="formData.image_name" class="absolute inset-0 mx-auto mr-3 mt-3 border border-gray-300 h-40 w-40">
+                <textarea v-model="formData.content" readonly class="border-gray-300 w-full m-auto block resize-none h-80 border-t-white rounded-b-xl"></textarea>
+            </div>
+
 
         </div>
 
@@ -208,7 +210,8 @@ const onEditComment = (postId)=>{
             </div>
 
 
-            <div>{{post}}</div>
+<!--            <div>{{post}}</div>-->
+            <div>{{formData.image_path}}</div>
 
         </div>
 

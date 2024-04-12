@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\PostsController;
 use \App\Http\Controllers\CommentController;
+use \Illuminate\Support\Facades\Storage;
 
 Route::middleware([
     'auth:sanctum',
@@ -52,6 +53,12 @@ Route::middleware([
             Route::put('/{id}','update')->name('update');
         });
 
+
+    Route::get('/storage/images/{filename}',function($filename){
+       $path = Storage::disk('public')->path('images/'.$filename);
+       return response()->file($path);
+
+    })->name('storage.images.show');
 
 });
 
