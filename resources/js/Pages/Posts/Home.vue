@@ -139,18 +139,24 @@ const linkPage = (url) => {
 
             <!--            </ul>-->
 
+
             <!--pagination feedback code-->
             <div class="flex flex-row justify-center mt-5">
-                <template v-for="link in data.links">
+                <div v-if="selectedBoard === '' || selectedBoard === data.data.board_id">
 
-                    <Link v-if="link.url != null"
-                          :class="[link.active ? 'bg-gray-900 text-white': '']"
-                          class="mr-3 border border-gray-300 px-2 rounded-xl hover:bg-black hover:text-white transition delay-75"
-                          :href="link.url"
-                    >
-                        <span v-html="link.label"></span>
-                    </Link>
-                </template>
+                    <!--게시판별 페이지네이션-->
+                    <template v-for="link in data.links">
+
+                        <Link v-if="link.url != null"
+                              :class="[link.active ? 'bg-gray-900 text-white': '']"
+                              class="mr-3 border border-gray-300 px-2 rounded-xl hover:bg-black hover:text-white transition delay-75"
+                              :href="link.url + (selectedBoard ? `&board=${selectedBoard}` : '')"
+                        > <!--베열형태를 사용하면 코드중복 방지-->
+                            <span v-html="link.label"></span>
+                        </Link> <!--페이지 이동할 때 전체 페이지 리로딩 대신 부분 리로딩으로 사용 가능-->
+                    </template>
+                </div>
+
 
             </div>
 

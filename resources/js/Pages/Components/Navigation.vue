@@ -13,7 +13,7 @@ const logout = () => {
         <ul class="flex justify-end gap-5 text-lg p-5 bg-black text-white">
             <li><a href="/post" class="hover:text-blue-500 transition">Home</a></li>
             <li v-if="!$page.props.auth.user" ><a href="/login" class="hover:text-blue-500 transition">login</a></li>
-            <li v-if="$page.props.auth.user" class="hover:text-blue-500 transition">' {{$page.props.auth.user.name}} ' 님</li>
+            <li v-if="$page.props.auth.user" class="hover:text-blue-500 transition"><a href="/dashboard">' {{$page.props.auth.user.name}} ' 님</a></li>
             <li v-if="!$page.props.auth.user" class="mr-5 hover:text-blue-500 transition"><a href="/register">join</a></li>
             <li v-if="$page.props.auth.user" class="mr-5 cursor-pointer ">
                 <a @click="logout" class="hover:text-blue-500 transition">logout</a>

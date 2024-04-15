@@ -62,7 +62,8 @@ class PostsController extends Controller
 
         //        Post::create($request->all());
 
-        return redirect()->route('posts.home',['id' => $post->id]);
+        return redirect()->route('posts.detail',['id' => $post->id]);
+        //posts.detail의 라우터로 새로 생성된 post의 id값을 넘겨줌으로 해당 작성 포스트로 리다이렉션 할수있음.
 
     }
 
