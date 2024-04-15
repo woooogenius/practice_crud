@@ -58,14 +58,14 @@ const submitComment = ()=>{
     commentData.post(route('comment.store'),{
         onSuccess : ()=>{
             commentData.comment = '';
-            commentData.post_id = '';
+            // commentData.post_id = '';
+            //SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'post_id' cannot be null
+            //포스트의 id를 초기화시켜서 생긴 이슈
         },
         onFinish : ()=>{
 
         }
     })
-
-
 }
 
 const page = usePage();
@@ -130,6 +130,7 @@ const deleteComment = (commentId)=>{
 const onEditComment = (postId)=>{
     router.get(route('comment.edit',postId));
 }
+
 
 </script>
 

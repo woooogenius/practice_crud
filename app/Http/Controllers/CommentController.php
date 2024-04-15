@@ -16,6 +16,7 @@ class CommentController extends Controller
                 'post_id' => $request->post_id,
                 'user_id' => $request->user()->id,
                 'comment' => $request->comment,
+//                dd($request)
             ]);
         }
     }
