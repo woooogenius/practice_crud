@@ -2,20 +2,21 @@
 
 import Navigation from "@/Pages/Components/Navigation.vue";
 import {inject, onMounted, ref} from "vue";
-import {router, usePage} from "@inertiajs/vue3";
+import {router, usePage, Link} from "@inertiajs/vue3";
 import Footer from "@/Pages/Components/Footer.vue";
 
 
 const route = inject('route')
 
 defineProps({
-    data:{
-        type:Object,
-        default: ()=>{},
+    data: {
+        type: Object,
+        default: () => {
+        },
     },
 })
 
-const dateFormat = (postTime)=>{
+const dateFormat = (postTime) => {
     const date = new Date(postTime);
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -25,19 +26,18 @@ const dateFormat = (postTime)=>{
     return `${year}/${month}/${day} ${hours}:${minutes}`;
 }
 
-const deletePost = (postId)=>{
-    if(confirm('삭제하시겠습니까?')){
-        router.delete(route('posts.destroy',postId));
+const deletePost = (postId) => {
+    if (confirm('삭제하시겠습니까?')) {
+        router.delete(route('posts.destroy', postId));
     }
 }
 
-const editPost = (postId)=>{
-    router.get(route('posts.edit',postId));
+const editPost = (postId) => {
+    router.get(route('posts.edit', postId));
 }
-const detailPost = (postId)=>{
-    router.get(route('posts.detail',postId));
+const detailPost = (postId) => {
+    router.get(route('posts.detail', postId));
 }
-
 
 
 // let selectedBoard ='';
@@ -53,7 +53,7 @@ const selectedBoard = ref('');
 // }
 
 
-const linkPage = (url)=>{
+const linkPage = (url) => {
     router.get(url);
 }
 
@@ -67,11 +67,15 @@ const linkPage = (url)=>{
 
             <h1 class="mt-5 text-center text-2xl">Board Home</h1>
             <div class="flex flex-row justify-end">
-                <select  v-model="selectedBoard" class="border border-gray-300 rounded-xl text-sm">
+                <select v-model="selectedBoard" class="border border-gray-300 rounded-3xl text-sm">
                     <option value="">전체보기</option>
                     <option value="자유게시판">자유게시판</option>
                     <option value="그냥게시판">그냥게시판</option>
                 </select>
+                <button
+                    class="ml-2 px-5 py-2 rounded-3xl border border-gray-300 hover:bg-black hover:text-white transition delay-100">
+                    <a href="/post/create">게시글 등록</a>
+                </button>
             </div>
 
             <ul class="w-full border border-gray-300 flex text-center mt-3">
@@ -83,7 +87,7 @@ const linkPage = (url)=>{
                 <li class="w-1/12 p-1">edit</li>
                 <li class="w-1/12 p-1">delete</li>
             </ul>
-<!--            <div>{{data}}</div>-->
+            <!--            <div>{{data}}</div>-->
             <div v-for="(post, index) in data.data">
                 <div v-if="selectedBoard === '' ? true : selectedBoard === post.board_id">
                     <ul class="border border-gray-300 flex text-center border-t-0 ">
@@ -116,46 +120,39 @@ const linkPage = (url)=>{
                 </div>
 
 
-
-
             </div>
 
 
             <!--페이지네이션-->
-            <ul class="flex justify-center mt-5">
-                <li v-if="data.prev_page_url !== null" class="mr-3 border border-gray-300 px-2 rounded-xl hover:bg-black hover:text-white transition delay-75">
-                    <button  @click="linkPage(data.prev_page_url)"><<</button>
-                </li>
+            <!--            <ul class="flex justify-center mt-5">-->
+            <!--                <li v-if="data.prev_page_url !== null" class="mr-3 border border-gray-300 px-2 rounded-xl hover:bg-black hover:text-white transition delay-75">-->
+            <!--                    <button  @click="linkPage(data.prev_page_url)"><<</button>-->
+            <!--                </li>-->
 
-                <li v-for="(page, idx) in data.last_page" :key="page.url" class="mr-2 border border-gray-300 w-6 h-6 text-center hover:bg-black hover:text-white text-sm rounded-xl transition">
-                    <button class="w-full h-full" @click="linkPage(`${data.path + `?page=${idx+1}`}`)">{{ page }}</button>
-                </li>
+            <!--                <li v-for="(page, idx) in data.last_page" :key="page.url" class="mr-2 border border-gray-300 w-6 h-6 text-center hover:bg-black hover:text-white text-sm rounded-xl transition">-->
+            <!--                    <button class="w-full h-full" @click="linkPage(`${data.path + `?page=${idx+1}`}`)">{{ page }}</button>-->
+            <!--                </li>-->
 
-                <li v-if="data.next_page_url !== null">
-                    <button  @click="linkPage(data.next_page_url)" class="border border-gray-300 px-3 rounded-xl hover:bg-black hover:text-white transition delay-75">>></button>
-                </li>
+            <!--                <li v-if="data.next_page_url !== null">-->
+            <!--                    <button  @click="linkPage(data.next_page_url)" class="border border-gray-300 px-3 rounded-xl hover:bg-black hover:text-white transition delay-75">>></button>-->
+            <!--                </li>-->
 
-            </ul>
+            <!--            </ul>-->
 
-            <div class="flex flex-row justify-end mt-5">
-                <button class="px-5 py-2 rounded-3xl border border-gray-300 hover:bg-black hover:text-white transition delay-100">
-                    <a href="/post/create">게시글 등록</a>
-                </button>
+            <!--pagination feedback code-->
+            <div class="flex flex-row justify-center mt-5">
+                <template v-for="link in data.links">
+
+                    <Link v-if="link.url != null"
+                          :class="[link.active ? 'bg-gray-900 text-white': '']"
+                          class="mr-3 border border-gray-300 px-2 rounded-xl hover:bg-black hover:text-white transition delay-75"
+                          :href="link.url"
+                    >
+                        <span v-html="link.label"></span>
+                    </Link>
+                </template>
+
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         </div>
