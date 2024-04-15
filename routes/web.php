@@ -50,7 +50,7 @@ Route::middleware([
             Route::get('','index')->name('index');
             Route::get('{id}','edit')->name('edit');
             Route::delete('{id}','destroy')->name('destroy');
-            Route::put('{id}','update')->name('update');
+            Route::post('{id}','update')->name('update');
         });
 
 

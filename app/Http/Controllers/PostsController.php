@@ -79,6 +79,8 @@ class PostsController extends Controller
         //put매서드를 사용하면 이미지 수정이 안됨
         //post로 하니까 잘들어옴,,
 
+        $post->title = $request->title;
+        $post->content = $request->input('content');
 
         if($request->hasFile('image')){
             $fileName =time().'_'.$request->file('image')->getClientOriginalName();

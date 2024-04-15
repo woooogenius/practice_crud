@@ -48,9 +48,7 @@ const detailPost = (postId) => {
 
 const selectedBoard = ref('');
 
-// const setSelectedBoard = (value) => {
-//     selectedBoard.value = value;
-// }
+
 
 
 const linkPage = (url) => {
@@ -87,7 +85,7 @@ const linkPage = (url) => {
                 <li class="w-1/12 p-1">edit</li>
                 <li class="w-1/12 p-1">delete</li>
             </ul>
-            <!--            <div>{{data}}</div>-->
+<!--                        <div>{{data}}</div>-->
             <div v-for="(post, index) in data.data">
                 <div v-if="selectedBoard === '' ? true : selectedBoard === post.board_id">
                     <ul class="border border-gray-300 flex text-center border-t-0 ">
