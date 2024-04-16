@@ -33,7 +33,7 @@ class PostsController extends Controller
         }else{
             $posts = Post::with('user')->orderBy('id', 'desc')->paginate(10);
         }
-        return Inertia::render('Posts/Home', ['data' => $posts]);
+        return Inertia::render('Posts/Home', ['data' => $posts, 'board_id'=>$boardId]);
 
     }
 
