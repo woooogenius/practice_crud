@@ -39,7 +39,7 @@ const handleSubmit = async () => {
     formData.append('image', form.image)
     formData.append('title', form.title)
     formData.append('content', form.content)
-    // formData.append('board_id', form.board_id)
+    formData.append('board_id', form.board_id)
 
 
     await router.post(route('posts.update', page.props.post.id), formData);

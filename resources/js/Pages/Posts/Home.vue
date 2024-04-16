@@ -1,7 +1,7 @@
 <script setup>
 
 import Navigation from "@/Pages/Components/Navigation.vue";
-import {inject, onMounted, ref} from "vue";
+import {inject, onMounted, ref, watch} from "vue";
 import {router, usePage, Link} from "@inertiajs/vue3";
 import Footer from "@/Pages/Components/Footer.vue";
 
@@ -50,10 +50,25 @@ const selectedBoard = ref('');
 
 
 
-
 const linkPage = (url) => {
     router.get(url);
 }
+
+const onChangeBoardOption = (e) => {
+    const boardId = e.target.value
+    if(boardId){
+        router.get(route('posts.home', {
+            'board_id': boardId
+        }))
+    }else if(boardId === ''){
+        router.get(route('posts.home'),{
+            'board_id' : ''
+        })
+    }
+}
+
+
+
 
 </script>
 
@@ -65,8 +80,9 @@ const linkPage = (url) => {
 
             <h1 class="mt-5 text-center text-2xl">Board Home</h1>
             <div class="flex flex-row justify-end">
-                <select v-model="selectedBoard" class="border border-gray-300 rounded-3xl text-sm">
-                    <option value="">전체보기</option>
+                <select v-model="selectedBoard" @change="onChangeBoardOption" class="border border-gray-300 rounded-3xl text-sm">
+                    <option value="">게시판선택</option>
+                    <option value="">전체게시물</option>
                     <option value="자유게시판">자유게시판</option>
                     <option value="그냥게시판">그냥게시판</option>
                 </select>
@@ -86,8 +102,8 @@ const linkPage = (url) => {
                 <li class="w-1/12 p-1">delete</li>
             </ul>
 <!--                        <div>{{data}}</div>-->
-            <div v-for="(post, index) in data.data">
-                <div v-if="selectedBoard === '' ? true : selectedBoard === post.board_id">
+            <div v-for="(post, index) in $page.props.data.data" :key="post.id">
+                <div>
                     <ul class="border border-gray-300 flex text-center border-t-0 ">
                         <li class="w-1/12 border-r border-gray-300 p-3">{{ index + 1 }}</li>
                         <li class="w-2/12 border-r border-gray-300 p-3">{{ post.user.name }}</li>
@@ -140,20 +156,17 @@ const linkPage = (url) => {
 
             <!--pagination feedback code-->
             <div class="flex flex-row justify-center mt-5">
-                <div v-if="selectedBoard === '' || selectedBoard === data.data.board_id">
 
                     <!--게시판별 페이지네이션-->
                     <template v-for="link in data.links">
-
                         <Link v-if="link.url != null"
                               :class="[link.active ? 'bg-gray-900 text-white': '']"
                               class="mr-3 border border-gray-300 px-2 rounded-xl hover:bg-black hover:text-white transition delay-75"
-                              :href="link.url + (selectedBoard ? `&board=${selectedBoard}` : '')"
+                              :href="link.url + (selectedBoard ? `&board_id=${selectedBoard}` : '')"
                         > <!--베열형태를 사용하면 코드중복 방지-->
                             <span v-html="link.label"></span>
                         </Link> <!--페이지 이동할 때 전체 페이지 리로딩 대신 부분 리로딩으로 사용 가능-->
                     </template>
-                </div>
 
 
             </div>

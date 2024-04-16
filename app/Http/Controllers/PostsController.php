@@ -14,12 +14,29 @@ use Illuminate\Http\Request;
 
 class PostsController extends Controller
 {
-    public function home()
+//    public function home()
+//    {
+//
+////        $posts = Post::with('user')->get();
+//        $data = Post::with('user')->orderBy('id','desc')->paginate(10);
+//        return Inertia::render('Posts/Home',['data'=>$data]);
+//    }
+//
+
+    public function home(Request $request)
     {
-//        $posts = Post::with('user')->get();
-        $data = Post::with('user')->orderBy('id','desc')->paginate(10);
-        return Inertia::render('Posts/Home',['data'=>$data]);
+        $boardId = $request->input('board_id'); //board_id 파라미터의 값을 가져옴
+
+        if($boardId !== null){
+            $posts = Post::with('user')->where('board_id', '=' ,$boardId)->orderBy('id', 'desc')->paginate(10);
+
+        }else{
+            $posts = Post::with('user')->orderBy('id', 'desc')->paginate(10);
+        }
+        return Inertia::render('Posts/Home', ['data' => $posts]);
+
     }
+
 
 
 
@@ -81,6 +98,7 @@ class PostsController extends Controller
 
         $post->title = $request->title;
         $post->content = $request->input('content');
+        $post->board_id = $request->board_id;
 
         if($request->hasFile('image')){
             $fileName =time().'_'.$request->file('image')->getClientOriginalName();
